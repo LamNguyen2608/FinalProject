@@ -36,7 +36,7 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Chat")}
+        onPress={() => navigation.navigate("Full-time", { screen: "Chat" })}
         style={styles.chatButton}
       >
         <Entypo name="chat" size={24} color={colors.lightGray} />

@@ -1,7 +1,9 @@
+import "react-native-gesture-handler";
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { View, ActivityIndicator } from "react-native";
 import { onAuthStateChanged } from "firebase/auth";
 import {
@@ -18,6 +20,7 @@ import Home from "./src/screens/Home";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 const AuthenticatedUserContext = createContext({});
 
 const AuthenticatedUserProvider = ({ children }) => {
@@ -48,17 +51,35 @@ function AuthStack() {
   );
 }
 
+function DrawerNavigation() {
+  return (
+    <Drawer.Navigator
+      initialRouteName="Home"
+      screenOptions={{ headerShown: false }}
+    >
+      <Drawer.Screen
+        name="Home"
+        component={BottomNavigation}
+        screenOptions={{ headerShown: false }}
+      />
+      <Drawer.Screen name="Transportation Monitor" component={Home} />
+      <Drawer.Screen name="Sleep Monitor" component={Home} />
+      <Drawer.Screen name="Clothes Monitor" component={Home} />
+    </Drawer.Navigator>
+  );
+}
+
 function BottomNavigation() {
   return (
     <Tab.Navigator
-      defaultScreenOptions={Home}
+      defaultScreenOptions={ChatStack}
       screenOptions={{
         activeTintColor: "#b7a5e7",
       }}
     >
       <Tab.Screen
         name="Full-time"
-        component={Home}
+        component={ChatStack}
         options={{
           headerShown: false,
           unmountOnBlur: true,
@@ -127,7 +148,7 @@ function RootNavigator() {
 
   return (
     <NavigationContainer>
-      {user ? <ChatStack /> : <AuthStack />}
+      {user ? <DrawerNavigation /> : <AuthStack />}
     </NavigationContainer>
   );
 }
