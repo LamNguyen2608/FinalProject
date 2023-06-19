@@ -17,11 +17,12 @@ import Login from "./src/screens/Login";
 import Signup from "./src/screens/Signup";
 import Chat from "./src/screens/Chat";
 import Home from "./src/screens/Home";
+import TransportationMonitor from "./src/screens/TransportationMonitor";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
-const AuthenticatedUserContext = createContext({});
+export const AuthenticatedUserContext = createContext({});
 
 const AuthenticatedUserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -35,7 +36,10 @@ const AuthenticatedUserProvider = ({ children }) => {
 
 function ChatStack() {
   return (
-    <Stack.Navigator defaultScreenOptions={Home}>
+    <Stack.Navigator
+      defaultScreenOptions={Home}
+      screenOptions={{ headerShown: false }}
+    >
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
@@ -55,14 +59,17 @@ function DrawerNavigation() {
   return (
     <Drawer.Navigator
       initialRouteName="Home"
-      screenOptions={{ headerShown: false }}
+      screenOptions={{ headerShown: true }}
     >
       <Drawer.Screen
         name="Home"
         component={BottomNavigation}
         screenOptions={{ headerShown: false }}
       />
-      <Drawer.Screen name="Transportation Monitor" component={Home} />
+      <Drawer.Screen
+        name="Transportation Monitor"
+        component={TransportationMonitor}
+      />
       <Drawer.Screen name="Sleep Monitor" component={Home} />
       <Drawer.Screen name="Clothes Monitor" component={Home} />
     </Drawer.Navigator>
@@ -75,14 +82,15 @@ function BottomNavigation() {
       defaultScreenOptions={ChatStack}
       screenOptions={{
         activeTintColor: "#b7a5e7",
+        headerShown: false,
       }}
     >
       <Tab.Screen
         name="Full-time"
         component={ChatStack}
         options={{
-          headerShown: false,
           unmountOnBlur: true,
+          headerShown: false,
           tabBarLabel: "Full-time",
           tabBarIcon: () => (
             <FontAwesome name="calendar-check-o" size={24} color="black" />
@@ -94,7 +102,7 @@ function BottomNavigation() {
         component={Home}
         options={{
           headerTransparent: true,
-          //headerTitle: () => <Header name="Account" />,
+          headerShown: false,
           tabBarLabel: "Arrange",
           tabBarIcon: () => <Entypo name="chat" size={24} color="black" />,
         }}
@@ -104,6 +112,7 @@ function BottomNavigation() {
         component={Home}
         options={{
           tabBarLabel: "Part-time",
+          headerShown: false,
           tabBarIcon: () => (
             <FontAwesome5 name="money-bill-wave" size={24} color="black" />
           ),
@@ -114,6 +123,7 @@ function BottomNavigation() {
         component={Home}
         options={{
           tabBarLabel: "Profile",
+          headerShown: false,
           tabBarIcon: () => (
             <Ionicons name="ios-person-sharp" size={24} color="black" />
           ),
